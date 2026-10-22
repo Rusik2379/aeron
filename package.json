@@ -1,0 +1,17 @@
+{
+  "name": "aeron-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node serve.mjs",
+    "build": "node build.mjs",
+    "check": "node check-site.mjs && node verify-seo.mjs && node check-cms.mjs && node check-mail.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^10.1.7"
+  }
+}

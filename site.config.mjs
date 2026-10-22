@@ -1,0 +1,3 @@
+import {savedSettings} from './content-store.mjs';
+// Контакты и юридические данные также редактируются через /admin/.
+export default {name:'АЭРОН',phone:'+7 (3852) 57-00-19',phoneSales:'+7 (929) 310-97-98',email:'info@aeron.ru',address:'656011, Алтайский край, г. Барнаул, ул. Ярных, д. 6',hours:'Пн–Пт, 09:00–18:00',demoContacts:false,siteUrl:'',formEndpoint:'/api/inquiries',hero:'assets/images/hero-aeron-v5.webp',legalName:'ООО «АЭРОН»',inn:'2224177008',kpp:'222201001',ogrn:'1152225027052',legalAddress:'656011, Алтайский край, г. о. город Барнаул, г. Барнаул, ул. Ярных, д. 6',bankName:'',settlementAccount:'',correspondentAccount:'',bik:'',geographyCounts:{},...savedSettings()};
