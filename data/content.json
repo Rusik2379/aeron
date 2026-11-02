@@ -1223,7 +1223,7 @@
     "demoContacts": false,
     "address": "656011, Алтайский край, г. Барнаул, ул. Ярных, д. 6",
     "legalAddress": "656011, Алтайский край, г. о. город Барнаул, г. Барнаул, ул. Ярных, д. 6",
-    "aboutRomanPhoto": "",
+    "aboutRomanPhoto": "assets/images/team/roman-site.png",
     "aboutZhukovPhoto": ""
   }
 }

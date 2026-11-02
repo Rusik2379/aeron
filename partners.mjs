@@ -14,7 +14,7 @@ export const partners=[
  {id:'beeline',name:'билайн',logo:'beeline.svg',note:'Объекты в Барнауле',site:'https://moskva.beeline.ru/'},
  {id:'megafon',name:'МегаФон',logo:'megafon.svg',note:'Объекты в Барнауле',site:'https://corp.megafon.ru/'},
  {id:'veles',name:'VELES',logo:'veles.png',note:'Завод в Павловске',site:'https://veles-alt.com/'},
- {id:'holod',name:'Холод',logo:'holod.svg',note:'Производственный объект · Заринск',site:'https://22rus.oooholod.ru/'},
+ {id:'holod',name:'Холод',logo:'holod-on-white.svg',note:'Производственный объект · Заринск',site:'https://22rus.oooholod.ru/'},
  {id:'evalar',name:'Эвалар',logo:'evalar.svg',note:'Два склада · с. Алтайское',site:'https://corp.evalar.ru/'},
  {id:'tatzerno',name:'Татарскзернопродукт',logo:'tatzerno.png',note:'Маслоэкстракционный завод · Татарск',site:'https://tatzerno.ru/'},
  {id:'apteka22',name:'АптекиПлюс',logo:'aptekiplus.svg',note:'Аптечная сеть · Барнаул',site:'https://aptekiplus.ru/barnaul/'}
