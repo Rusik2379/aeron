@@ -20,7 +20,7 @@
 | Холод | https://22rus.oooholod.ru/ | https://22rus.oooholod.ru/local/templates/holod/img/holod-logo-2.svg |
 | Эвалар | https://corp.evalar.ru/ | https://corp.evalar.ru/images/_header/logo.svg |
 | Татарскзернопродукт | https://tatzerno.ru/ | https://tatzerno.ru/cms/templates/tat/media/logo.png |
-| Аптека22 | https://apteka22.ru/ | Исходный SVG из header__logo-icon в шапке сайта |
+| АптекиПлюс | https://aptekiplus.ru/barnaul/catalog/root/ | https://static.aptekiplus.ru/assets/site/images/logo/logo-small.svg |
 
 Для завода «Черноземье» используется логотип группы EXOIL с явной подписью группы. Для АО «Индейка Алтая» отдельный подтверждённый логотип не найден: карточка объекта опубликована, бренд не заменён логотипом другого производителя птицы.
 

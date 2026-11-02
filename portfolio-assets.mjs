@@ -30,7 +30,7 @@ export const projectPhotos={
     },
     {
       "src": "assets/images/projects/zzt-05.webp",
-      "alt": "Монтаж кровли силоса",
+      "alt": "Сборка кровельного кольца силоса",
       "width": 1440,
       "height": 1920,
       "preview": "assets/images/projects/zzt-05-preview.webp"

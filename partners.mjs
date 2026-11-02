@@ -17,13 +17,13 @@ export const partners=[
  {id:'holod',name:'Холод',logo:'holod.svg',note:'Производственный объект · Заринск',site:'https://22rus.oooholod.ru/'},
  {id:'evalar',name:'Эвалар',logo:'evalar.svg',note:'Два склада · с. Алтайское',site:'https://corp.evalar.ru/'},
  {id:'tatzerno',name:'Татарскзернопродукт',logo:'tatzerno.png',note:'Маслоэкстракционный завод · Татарск',site:'https://tatzerno.ru/'},
- {id:'apteka22',name:'Аптека22',logo:'apteka22.svg',note:'Аптечная сеть · Барнаул',site:'https://apteka22.ru/'}
+ {id:'apteka22',name:'АптекиПлюс',logo:'aptekiplus.svg',note:'Аптечная сеть · Барнаул',site:'https://aptekiplus.ru/barnaul/'}
 ];
 export const partnerById=id=>partners.find(p=>p.id===id);
 export function partnerCarousel({esc,projects}){
  const items=partners.filter(p=>p.logo).map(p=>{const related=projects.filter(x=>x.client===p.id||x.clients?.includes(p.id));return {...p,project:related.find(x=>x.slug===p.primaryProject)||related[0]};}).filter(p=>p.project);
  if(!items.length)return '';
  const card=(p,duplicate=false)=>`<li><a class="partner-logo-card" href="projects/${p.project.slug}/index.html"${duplicate?' tabindex="-1"':''} aria-label="${esc(p.name)} — объект АЭРОН"><div class="partner-logo-box ${p.id==='beeline'?'partner-logo-symbol':''}"><img src="assets/images/clients/${p.logo}" alt="${esc(p.name)}" width="240" height="90" loading="eager"></div><div class="partner-logo-caption"><strong>${esc(p.name)}</strong><span>${esc(p.note)}</span></div><i aria-hidden="true">↗</i></a></li>`;
- return `<section class="section partners-section" id="partners" data-partner-carousel role="region" aria-roledescription="карусель" aria-label="Компании, с которыми работал АЭРОН"><div class="container"><div class="section-head"><div><p class="eyebrow">Опыт сотрудничества</p><h2>С кем работали</h2></div><p>Промышленность, агробизнес и сервис.<br>Компании, на объектах которых работал АЭРОН.</p></div><div class="partner-toolbar"><a class="text-link" href="projects/index.html">Все объекты <span aria-hidden="true">↗</span></a></div><div class="partner-viewport"><div class="partner-track"><ul class="partner-set" aria-label="Логотипы компаний">${items.map(p=>card(p)).join('')}</ul><ul class="partner-set" aria-hidden="true">${items.map(p=>card(p,true)).join('')}</ul></div></div></div></section>`;
+ return `<section class="section partners-section" id="partners" data-partner-carousel role="region" aria-roledescription="карусель" aria-label="Партнеры АЭРОН"><div class="container"><div class="section-head"><div><p class="eyebrow">Опыт сотрудничества</p><h2>Наши партнеры</h2></div><p>Промышленность, агробизнес и сервис.<br>Компании, на объектах которых работал АЭРОН.</p></div><div class="partner-toolbar"><a class="text-link" href="projects/index.html">Все объекты <span aria-hidden="true">↗</span></a></div><div class="partner-viewport"><div class="partner-track"><ul class="partner-set" aria-label="Логотипы компаний">${items.map(p=>card(p)).join('')}</ul><ul class="partner-set" aria-hidden="true">${items.map(p=>card(p,true)).join('')}</ul></div></div></div></section>`;
 }
 
