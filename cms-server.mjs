@@ -37,13 +37,14 @@ function validateRecord(kind,input,old,publicRoot){
   if(result.status==='published'&&(!result.region||!result.type||!result.role||!result.text))throw error(400,'Для публикации объекта заполните регион, тип, выполненные работы и описание.');
  }return result;
 }
-function validateSettings(input){
+function validateSettings(input,publicRoot){
  const fields=['phone','phoneSales','email','address','hours','legalName','inn','kpp','ogrn','legalAddress','bankName','settlementAccount','correspondentAccount','bik','siteUrl'];
  const result=Object.fromEntries(fields.map(key=>[key,text(input[key],key.includes('Address')||key==='address'?700:200)]));
  for(const [key,lengths] of [['inn',[10,12]],['kpp',[9]],['ogrn',[13,15]],['bik',[9]],['settlementAccount',[20]],['correspondentAccount',[20]]])if(result[key]&&(!/^\d+$/.test(result[key])||!lengths.includes(result[key].length)))throw error(400,'Проверьте количество цифр в поле «'+key+'».');
  if(result.siteUrl&&!/^https:\/\/[a-z0-9.-]+(:\d+)?$/i.test(result.siteUrl))throw error(400,'Домен указывается как https://example.ru без пути и завершающего слеша.');
  result.geographyCounts={};
  for(const location of mapLocations){const value=input.geographyCounts?.[location.id];if(value===null||value===undefined||(typeof value==='string'&&!value.trim())){result.geographyCounts[location.id]=null;continue;}const count=Number(value);if(!['number','string'].includes(typeof value)||!Number.isInteger(count)||count<0||count>100000)throw error(400,'Количество объектов должно быть целым числом от 0 до 100 000.');result.geographyCounts[location.id]=count;}
+ for(const key of ['aboutRomanPhoto','aboutZhukovPhoto'])result[key]=imagePath(input[key],publicRoot);
  result.demoContacts=Boolean(input.demoContacts);return result;
 }
 function rebuild(){return new Promise((resolve,reject)=>{const child=spawn(process.execPath,['build.mjs'],{cwd:root,windowsHide:true,env:process.env});let output='';child.stdout.on('data',c=>output+=c);child.stderr.on('data',c=>output+=c);child.on('error',reject);child.on('close',code=>code?reject(new Error('Сборка сайта: '+output.slice(-1500))):resolve());});}
@@ -104,7 +105,7 @@ export function createSiteServer({publicRoot=root,rebuildSite=rebuild,deliverInq
     if(method==='POST'&&pathname==='/api/admin/mail'){saveMailSettings(await jsonBody(req,10000));send(res,200,{ok:true});return;}
     if(method==='POST'&&pathname==='/api/admin/mail/verify'){await verifyMailConnection();send(res,200,{ok:true,message:'Подключение к почте проверено.'});return;}
     if(method==='POST'&&pathname==='/api/admin/upload'){const bytes=await readBody(req,12*1024*1024),extension=sniffImage(bytes),name=crypto.randomUUID()+'.'+extension,folder=path.join(publicRoot,'assets','uploads');fs.mkdirSync(folder,{recursive:true});fs.writeFileSync(path.join(folder,name),bytes,{flag:'wx'});send(res,201,{src:'assets/uploads/'+name,preview:'assets/uploads/'+name,width:1600,height:1000,alt:''});return;}
-    if(method==='POST'&&pathname==='/api/admin/settings'){const input=await jsonBody(req),settings=validateSettings(input);await changeStore(store=>{store.settings=settings;});send(res,200,{ok:true});return;}
+    if(method==='POST'&&pathname==='/api/admin/settings'){const input=await jsonBody(req),settings=validateSettings(input,publicRoot);await changeStore(store=>{store.settings=settings;});send(res,200,{ok:true});return;}
     const match=pathname.match(/^\/api\/admin\/(articles|projects)$/);
     if(method==='POST'&&match){const kind=match[1],input=await jsonBody(req);let saved;await changeStore(store=>{const index=store[kind].findIndex(x=>x.id===input.id),old=index>=0?store[kind][index]:null;if(old&&input.updatedAt!==old.updatedAt)throw error(409,'Материал уже изменён в другом окне. Откройте его заново.');saved=validateRecord(kind,input,old,publicRoot);if(store[kind].some(x=>x.slug===saved.slug&&x.id!==saved.id))throw error(409,'Такой адрес страницы уже занят.');if(index>=0)store[kind][index]=saved;else store[kind].unshift(saved);});send(res,200,{record:saved,url:'/'+kind+'/'+saved.slug+'/index.html'});return;}
     throw error(404,'Неизвестное действие.');

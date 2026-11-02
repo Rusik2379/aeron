@@ -55,6 +55,15 @@ try{
  verify(rollback.response.status===500&&readStore().projects[0].title===prior,'Failed build restores previous data');
  verify(shortDescription('Альфа бета гамма дельта',12)==='Альфа бета…','Word-boundary excerpt');
  const defaults=(await request('/api/admin/content')).data.defaults;const settings=await request('/api/admin/settings',{body:{...defaults,legalName:'ООО «Проверка»',siteUrl:'https://aeron.example',demoContacts:true}});verify(settings.response.status===200&&fs.readFileSync(path.join(workspace,'contacts/index.html'),'utf8').includes('ООО «Проверка»'),'Settings rebuild public contacts');verify(readStore().settings.phoneSales===defaults.phoneSales,'Sales phone survives settings save');
+
+ const portraits=await request('/api/admin/settings',{body:{...defaults,aboutRomanPhoto:upload.data.src,aboutZhukovPhoto:upload.data.src}});
+ verify(portraits.response.status===200&&readStore().settings.aboutRomanPhoto===upload.data.src&&readStore().settings.aboutZhukovPhoto===upload.data.src,'Uploaded portraits persist in settings');
+ const portraitHtml=fs.readFileSync(path.join(workspace,'about/index.html'),'utf8');
+ verify((portraitHtml.match(/class="about-photo"><img/g)||[]).length===2&&portraitHtml.includes(upload.data.src),'Saved portraits render on company page');
+ for(const invalid of ['https://example.com/photo.jpg','assets/../data/content.json'])verify((await request('/api/admin/settings',{body:{...defaults,aboutRomanPhoto:invalid}})).response.status===400,'Invalid portrait path rejected: '+invalid);
+ const emptyPortraits=await request('/api/admin/settings',{body:{...defaults,aboutRomanPhoto:'',aboutZhukovPhoto:''}});
+ verify(emptyPortraits.response.status===200&&(fs.readFileSync(path.join(workspace,'about/index.html'),'utf8').match(/class="about-photo about-photo-empty"/g)||[]).length===2,'Empty portrait fields preserve blank places without broken images');
+
  const mapData=(await request('/api/admin/content')).data;verify(mapData.mapLocations.length===10,'Ten editable map locations');
  for(const invalid of [-1,1.5,100001])verify((await request('/api/admin/settings',{body:{...defaults,geographyCounts:{barnaul:invalid}}})).response.status===400,'Invalid geography count rejected: '+invalid);
  const mapSave=await request('/api/admin/settings',{body:{...defaults,geographyCounts:{barnaul:20,biysk:2,omsk:0}}});verify(mapSave.response.status===200,'Geography counts saved');

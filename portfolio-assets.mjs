@@ -74,28 +74,28 @@ export const projectPhotos={
     },
     {
       "src": "assets/images/projects/paklino-04.webp",
-      "alt": "Сборка силоса на площадке",
+      "alt": "Сборка кровельного кольца силоса",
       "width": 1920,
       "height": 1440,
       "preview": "assets/images/projects/paklino-04-preview.webp"
     },
     {
       "src": "assets/images/projects/paklino-05.webp",
-      "alt": "Монтаж зернохранилища",
+      "alt": "Сборка силоса на площадке",
       "width": 1920,
       "height": 1440,
       "preview": "assets/images/projects/paklino-05-preview.webp"
     },
     {
       "src": "assets/images/projects/paklino-06.webp",
-      "alt": "Монтаж технологических конструкций",
+      "alt": "Монтаж технологического оборудования",
       "width": 1440,
       "height": 1920,
       "preview": "assets/images/projects/paklino-06-preview.webp"
     },
     {
       "src": "assets/images/projects/paklino-07.webp",
-      "alt": "Силос и бетонная площадка элеватора",
+      "alt": "Устройство дорог и проездов из бетона",
       "width": 1440,
       "height": 1920,
       "preview": "assets/images/projects/paklino-07-preview.webp"
@@ -138,18 +138,18 @@ export const projectPhotos={
       "preview": "assets/images/projects/feat-agro-05-preview.webp"
     },
     {
-      "src": "assets/images/projects/feat-agro-06.webp",
-      "alt": "Устройство промышленного пола",
-      "width": 1920,
-      "height": 1440,
-      "preview": "assets/images/projects/feat-agro-06-preview.webp"
-    },
-    {
       "src": "assets/images/projects/feat-agro-07.webp",
       "alt": "Металлический каркас производственного здания",
       "width": 1920,
       "height": 1440,
       "preview": "assets/images/projects/feat-agro-07-preview.webp"
+    },
+    {
+      "src": "assets/images/projects/feat-agro-06.webp",
+      "alt": "Устройство промышленных полов",
+      "width": 1920,
+      "height": 1440,
+      "preview": "assets/images/projects/feat-agro-06-preview.webp"
     }
   ],
   "yto": [
@@ -190,63 +190,20 @@ export const projectPhotos={
     },
     {
       "src": "assets/images/projects/yto-06.webp",
-      "alt": "Бетонные работы внутри корпуса",
+      "alt": "Устройство промышленных полов",
       "width": 1920,
       "height": 1440,
       "preview": "assets/images/projects/yto-06-preview.webp"
     },
     {
       "src": "assets/images/projects/yto-07.webp",
-      "alt": "Благоустройство территории центра",
+      "alt": "Благоустройство прилегающей территории",
       "width": 1920,
       "height": 1440,
       "preview": "assets/images/projects/yto-07-preview.webp"
     }
   ],
-  "rekonstrukciya": [
-    {
-      "src": "assets/images/projects/rekonstrukciya-01.webp",
-      "alt": "Замена перекрытий здания 1937 года постройки",
-      "width": 1920,
-      "height": 1440,
-      "preview": "assets/images/projects/rekonstrukciya-01-preview.webp"
-    },
-    {
-      "src": "assets/images/projects/rekonstrukciya-02.webp",
-      "alt": "Несъёмная опалубка перекрытия",
-      "width": 1920,
-      "height": 1440,
-      "preview": "assets/images/projects/rekonstrukciya-02-preview.webp"
-    },
-    {
-      "src": "assets/images/projects/rekonstrukciya-03.webp",
-      "alt": "Подготовка нового перекрытия",
-      "width": 1920,
-      "height": 1440,
-      "preview": "assets/images/projects/rekonstrukciya-03-preview.webp"
-    },
-    {
-      "src": "assets/images/projects/rekonstrukciya-04.webp",
-      "alt": "Монтаж балок в существующем здании",
-      "width": 1920,
-      "height": 1440,
-      "preview": "assets/images/projects/rekonstrukciya-04-preview.webp"
-    },
-    {
-      "src": "assets/images/projects/rekonstrukciya-05.webp",
-      "alt": "Армирование перекрытия",
-      "width": 1440,
-      "height": 1920,
-      "preview": "assets/images/projects/rekonstrukciya-05-preview.webp"
-    },
-    {
-      "src": "assets/images/projects/rekonstrukciya-06.webp",
-      "alt": "Состояние фасада на этапе реконструкции",
-      "width": 1440,
-      "height": 1920,
-      "preview": "assets/images/projects/rekonstrukciya-06-preview.webp"
-    }
-  ],
+  "rekonstrukciya": [],
   "gomselmash": [
     {
       "src": "assets/images/projects/gomselmash-01.webp",
@@ -299,7 +256,7 @@ export const projectPhotos={
     },
     {
       "src": "assets/images/projects/gomselmash-08.webp",
-      "alt": "Фасад и работы на прилегающей территории",
+      "alt": "Фасад и благоустройство прилегающей территории",
       "width": 1920,
       "height": 1440,
       "preview": "assets/images/projects/gomselmash-08-preview.webp"

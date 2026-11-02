@@ -64,3 +64,10 @@
 @media(max-width:900px){.partner-set>li{width:calc((100cqw - 32px)/3)}.partner-logo-card{height:210px}}
 @media(max-width:650px){.partners-section .section-head{gap:20px}.partner-track{gap:12px;animation-duration:90s}.partner-set{gap:12px}.partner-set>li{width:calc((100cqw - 12px)/2)}.partner-logo-card{height:225px;padding:20px 15px}.partner-logo-box{height:70px;margin-bottom:18px}.partner-logo-box img{height:58px}.partner-logo-caption strong{font-size:12px}.partner-logo-caption span{font-size:10px}.partner-logo-card>i{right:10px;bottom:16px}.partner-toolbar{margin-bottom:19px}.project-brand-placeholder{padding:25px;gap:18px}.project-card .project-brand-placeholder .project-client-logo{height:80px}@keyframes partner-flow{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 6px))}}}
 @media(prefers-reduced-motion:reduce){.partner-track{animation:none;will-change:auto}.partner-set[aria-hidden=true]{display:none}.partner-viewport{overflow-x:auto}.partner-logo-card,.partner-logo-box img{transition:none}}
+
+/* Reserved photographs can be filled from the CMS without changing the layout. */
+.about-photo{margin:32px 0 0;width:min(100%,420px);aspect-ratio:4/3;overflow:hidden}
+.about-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.about-photo-empty,.project-cover-empty,.photo-slot{background:#f0f3f4;border:1px solid var(--line)}
+.project-cover-empty{aspect-ratio:1200/750}
+.project-gallery .photo-slot{aspect-ratio:4/3}

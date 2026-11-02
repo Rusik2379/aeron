@@ -367,28 +367,28 @@
         },
         {
           "src": "assets/images/projects/paklino-04.webp",
-          "alt": "Сборка силоса на площадке",
+          "alt": "Сборка кровельного кольца силоса",
           "width": 1920,
           "height": 1440,
           "preview": "assets/images/projects/paklino-04-preview.webp"
         },
         {
           "src": "assets/images/projects/paklino-05.webp",
-          "alt": "Монтаж зернохранилища",
+          "alt": "Сборка силоса на площадке",
           "width": 1920,
           "height": 1440,
           "preview": "assets/images/projects/paklino-05-preview.webp"
         },
         {
           "src": "assets/images/projects/paklino-06.webp",
-          "alt": "Монтаж технологических конструкций",
+          "alt": "Монтаж технологического оборудования",
           "width": 1440,
           "height": 1920,
           "preview": "assets/images/projects/paklino-06-preview.webp"
         },
         {
           "src": "assets/images/projects/paklino-07.webp",
-          "alt": "Силос и бетонная площадка элеватора",
+          "alt": "Устройство дорог и проездов из бетона",
           "width": 1440,
           "height": 1920,
           "preview": "assets/images/projects/paklino-07-preview.webp"
@@ -469,18 +469,18 @@
           "preview": "assets/images/projects/feat-agro-05-preview.webp"
         },
         {
-          "src": "assets/images/projects/feat-agro-06.webp",
-          "alt": "Устройство промышленного пола",
-          "width": 1920,
-          "height": 1440,
-          "preview": "assets/images/projects/feat-agro-06-preview.webp"
-        },
-        {
           "src": "assets/images/projects/feat-agro-07.webp",
           "alt": "Металлический каркас производственного здания",
           "width": 1920,
           "height": 1440,
           "preview": "assets/images/projects/feat-agro-07-preview.webp"
+        },
+        {
+          "src": "assets/images/projects/feat-agro-06.webp",
+          "alt": "Устройство промышленных полов",
+          "width": 1920,
+          "height": 1440,
+          "preview": "assets/images/projects/feat-agro-06-preview.webp"
         }
       ],
       "cover": "assets/images/projects/feat-agro-cover.webp",
@@ -576,7 +576,7 @@
         },
         {
           "src": "assets/images/projects/gomselmash-08.webp",
-          "alt": "Фасад и работы на прилегающей территории",
+          "alt": "Фасад и благоустройство прилегающей территории",
           "width": 1920,
           "height": 1440,
           "preview": "assets/images/projects/gomselmash-08-preview.webp"
@@ -613,10 +613,10 @@
     },
     {
       "slug": "servisnyy-centr-yto",
-      "title": "Сервисный центр YTO",
+      "title": "Сервисный центр YTO / «Агроцентр»",
       "region": "Алтайский край · Барнаул, ул. Трактовая",
       "category": "commercial",
-      "type": "Сервисный центр",
+      "type": "Сервисный центр и выставочный павильон",
       "role": "Проектирование и строительство сервисного здания",
       "fact": "1 500 м²",
       "service": "promyshlennoe-stroitelstvo",
@@ -658,21 +658,21 @@
         },
         {
           "src": "assets/images/projects/yto-06.webp",
-          "alt": "Бетонные работы внутри корпуса",
+          "alt": "Устройство промышленных полов",
           "width": 1920,
           "height": 1440,
           "preview": "assets/images/projects/yto-06-preview.webp"
         },
         {
           "src": "assets/images/projects/yto-07.webp",
-          "alt": "Благоустройство территории центра",
+          "alt": "Благоустройство прилегающей территории",
           "width": 1920,
           "height": 1440,
           "preview": "assets/images/projects/yto-07-preview.webp"
         }
       ],
       "cover": "assets/images/projects/yto-cover.webp",
-      "text": "Сервисный центр на Трактовой площадью 1 500 м². В проект вошли подготовка территории, проектирование, фундаменты, металлический каркас, ограждающие конструкции, инженерные сети и благоустройство.",
+      "text": "Сервисный центр и выставочный павильон «Агроцентр» / YTO на Трактовой площадью 1 500 м². В проект вошли подготовка территории, проектирование, фундаменты, металлический каркас, ограждающие конструкции, инженерные сети и благоустройство. Проект выполнен совместно с компанией «Алтай-Тент».",
       "story": [
         "По фотографиям проекта видна последовательность строительства: подготовка участка и фундаментов, сборка металлического каркаса, монтаж ограждающих конструкций и устройство внутренних пространств.",
         "АЭРОН выполнил промышленные полы, отделочные работы, монтаж водоснабжения, электроснабжения и канализации. Территорию подготовили к эксплуатации и благоустроили."
@@ -692,14 +692,31 @@
           "1 500 м²"
         ],
         [
+          "Компания",
+          "Агроцентр"
+        ],
+        [
+          "Бренд",
+          "YTO"
+        ],
+        [
+          "Совместно с",
+          "Алтай-Тент"
+        ],
+        [
           "Расположение",
-          "Трактовая"
+          "Барнаул, ул. Трактовая"
         ]
       ],
       "id": "project-servisnyy-centr-yto",
       "status": "published",
       "client": "yto",
-      "mapLocation": "barnaul"
+      "mapLocation": "barnaul",
+      "clients": [
+        "agrocentr",
+        "yto",
+        "altaitent"
+      ]
     },
     {
       "slug": "rekonstrukciya-zdaniya-1937",
@@ -710,55 +727,12 @@
       "role": "Восстановление конструкций, инженерных сетей и помещений",
       "fact": "4 500 м²",
       "service": "rekonstrukciya",
-      "gallery": [
-        {
-          "src": "assets/images/projects/rekonstrukciya-01.webp",
-          "alt": "Замена перекрытий здания 1937 года постройки",
-          "width": 1920,
-          "height": 1440,
-          "preview": "assets/images/projects/rekonstrukciya-01-preview.webp"
-        },
-        {
-          "src": "assets/images/projects/rekonstrukciya-02.webp",
-          "alt": "Несъёмная опалубка перекрытия",
-          "width": 1920,
-          "height": 1440,
-          "preview": "assets/images/projects/rekonstrukciya-02-preview.webp"
-        },
-        {
-          "src": "assets/images/projects/rekonstrukciya-03.webp",
-          "alt": "Подготовка нового перекрытия",
-          "width": 1920,
-          "height": 1440,
-          "preview": "assets/images/projects/rekonstrukciya-03-preview.webp"
-        },
-        {
-          "src": "assets/images/projects/rekonstrukciya-04.webp",
-          "alt": "Монтаж балок в существующем здании",
-          "width": 1920,
-          "height": 1440,
-          "preview": "assets/images/projects/rekonstrukciya-04-preview.webp"
-        },
-        {
-          "src": "assets/images/projects/rekonstrukciya-05.webp",
-          "alt": "Армирование перекрытия",
-          "width": 1440,
-          "height": 1920,
-          "preview": "assets/images/projects/rekonstrukciya-05-preview.webp"
-        },
-        {
-          "src": "assets/images/projects/rekonstrukciya-06.webp",
-          "alt": "Состояние фасада на этапе реконструкции",
-          "width": 1440,
-          "height": 1920,
-          "preview": "assets/images/projects/rekonstrukciya-06-preview.webp"
-        }
-      ],
-      "cover": "assets/images/projects/rekonstrukciya-cover.webp",
+      "gallery": [],
+      "cover": "",
       "text": "Реконструкция здания 1937 года постройки площадью 4 500 м². Основные задачи — остановить замокание, заменить перекрытия, восстановить повреждённые участки здания и инженерные коммуникации.",
       "story": [
         "До начала работ здание продолжительное время оставалось без кровли. Замокание привело к повреждениям кладки, фундамента и деревянных перекрытий. В первую очередь организовали защиту от осадков и отвод воды.",
-        "Деревянные перекрытия заменили бетонными по несъёмной опалубке, восстановили повреждённые участки конструкций и инженерные сети. Затем выполнили внутреннюю отделку, смонтировали вентилируемый фасад из керамогранита и благоустроили территорию. Фотографии показывают именно этап реконструкции, а не готовый фасад."
+        "Деревянные перекрытия заменили бетонными по несъёмной опалубке, восстановили повреждённые участки конструкций и инженерные сети. Затем выполнили внутреннюю отделку, смонтировали вентилируемый фасад из керамогранита и благоустроили территорию."
       ],
       "works": [
         "Устройство шатровой кровли",
@@ -930,43 +904,6 @@
       ],
       "gallery": [],
       "id": "project-indeyka-altaya",
-      "status": "published",
-      "updatedAt": "2026-10-22T01:45:11.394Z"
-    },
-    {
-      "slug": "agrocentr-vystavochnyy-pavilion",
-      "title": "Выставочный павильон «Агроцентр»",
-      "region": "Алтайский край · Барнаул, ул. Трактовая",
-      "category": "commercial",
-      "type": "Выставочный павильон",
-      "client": "agrocentr",
-      "mapLocation": "barnaul",
-      "role": "Совместный проект с «Алтай-Тент»",
-      "fact": "Барнаул, ул. Трактовая",
-      "service": "administrativnye-zdaniya",
-      "text": "Выставочный павильон «Агроцентр» на улице Трактовой в Барнауле. Проект выполнен совместно с компанией «Алтай-Тент».",
-      "story": [],
-      "works": [],
-      "facts": [
-        [
-          "Компания",
-          "Агроцентр"
-        ],
-        [
-          "Совместно с",
-          "Алтай-Тент"
-        ],
-        [
-          "Расположение",
-          "Барнаул, ул. Трактовая"
-        ]
-      ],
-      "gallery": [],
-      "clients": [
-        "agrocentr",
-        "altaitent"
-      ],
-      "id": "project-agrocentr-vystavochnyy-pavilion",
       "status": "published",
       "updatedAt": "2026-10-22T01:45:11.394Z"
     },
@@ -1285,6 +1222,8 @@
     "email": "info@aeron.ru",
     "demoContacts": false,
     "address": "656011, Алтайский край, г. Барнаул, ул. Ярных, д. 6",
-    "legalAddress": "656011, Алтайский край, г. о. город Барнаул, г. Барнаул, ул. Ярных, д. 6"
+    "legalAddress": "656011, Алтайский край, г. о. город Барнаул, г. Барнаул, ул. Ярных, д. 6",
+    "aboutRomanPhoto": "",
+    "aboutZhukovPhoto": ""
   }
 }
