@@ -3,6 +3,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {isIP} from 'node:net';
 import {spawn} from 'node:child_process';
 import {root,dataDirectory,contentFile,readStore,writeStore} from './content-store.mjs';
 import {services} from './content.mjs';
@@ -53,6 +54,9 @@ async function jsonBody(req,max=2_000_000){if(!String(req.headers['content-type'
 function sniffImage(buffer){if(buffer.length>32&&buffer.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))return 'png';if(buffer.length>12&&buffer[0]===255&&buffer[1]===216&&buffer[2]===255)return 'jpg';if(buffer.length>20&&buffer.toString('ascii',0,4)==='RIFF'&&buffer.toString('ascii',8,12)==='WEBP')return 'webp';throw error(400,'Поддерживаются только изображения PNG, JPEG и WebP.');}
 
 export function createSiteServer({publicRoot=root,rebuildSite=rebuild,deliverInquiry=sendInquiryMail}={}){
+ const normalizeAddress=value=>value.startsWith('::ffff:')?value.slice(7):value;
+ const proxyPeers=new Set((process.env.AERON_TRUSTED_PROXIES||'').split(',').map(s=>normalizeAddress(s.trim())).filter(Boolean));
+ const clientAddress=req=>{const peer=normalizeAddress(req.socket.remoteAddress||''),forwarded=String(req.headers['x-real-ip']||'').trim();return proxyPeers.has(peer)&&isIP(forwarded)?normalizeAddress(forwarded):peer;};
  const sessions=new Map(),attempts=new Map(),inquiryAttempts=new Map();let queue=Promise.resolve();const authFile=path.join(dataDirectory,'auth.json');
  if(!fs.existsSync(contentFile))writeStore(readStore(),{backup:false});
  const serialized=job=>{const next=queue.then(job);queue=next.catch(()=>{});return next;};
@@ -74,7 +78,7 @@ export function createSiteServer({publicRoot=root,rebuildSite=rebuild,deliverInq
    if(pathname==='/api/inquiries'){
     if(req.method!=='POST'){res.writeHead(405,{'Allow':'POST'}).end();return;}
     sameOrigin(req);
-    const now=Date.now(),key=req.socket.remoteAddress;
+    const now=Date.now(),key=clientAddress(req);
     for(const [ip,value] of inquiryAttempts)if(value.until<=now)inquiryAttempts.delete(ip);
     const attempt=inquiryAttempts.get(key);
     if(attempt&&attempt.count>=5)throw error(429,'Слишком много обращений. Повторите попытку через 15 минут.');
@@ -94,7 +98,7 @@ export function createSiteServer({publicRoot=root,rebuildSite=rebuild,deliverInq
      const salt=crypto.randomBytes(24).toString('hex'),hash=crypto.scryptSync(password,salt,64).toString('hex');fs.mkdirSync(dataDirectory,{recursive:true});fs.writeFileSync(authFile,JSON.stringify({salt,hash}),{flag:'wx',mode:0o600});send(res,200,{csrf:newSession(req,res)});return;
     }
     if(method==='POST'&&pathname==='/api/admin/login'){
-     const key=req.socket.remoteAddress,attempt=attempts.get(key);if(attempt?.until>Date.now()&&attempt.count>=8)throw error(429,'Слишком много попыток. Повторите через 15 минут.');const {password}=await jsonBody(req);const auth=fs.existsSync(authFile)?JSON.parse(fs.readFileSync(authFile,'utf8')):null;
+     const key=clientAddress(req),attempt=attempts.get(key);if(attempt?.until>Date.now()&&attempt.count>=8)throw error(429,'Слишком много попыток. Повторите через 15 минут.');const {password}=await jsonBody(req);const auth=fs.existsSync(authFile)?JSON.parse(fs.readFileSync(authFile,'utf8')):null;
      const valid=typeof password==='string'&&password.length<=200&&auth&&crypto.timingSafeEqual(crypto.scryptSync(password,auth.salt,64),Buffer.from(auth.hash,'hex'));
      if(!valid){attempts.set(key,{count:attempt?.until>Date.now()?attempt.count+1:1,until:Date.now()+15*60*1000});throw error(401,'Неверный пароль.');}attempts.delete(key);send(res,200,{csrf:newSession(req,res)});return;
     }

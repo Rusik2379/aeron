@@ -32,6 +32,7 @@ try{
  check(failed.status===502&&!failed.data.ok,'Delivery failure never reports success');deliveryError=false;
  await request('/api/inquiries',{body:valid});await request('/api/inquiries',{body:valid});await request('/api/inquiries',{body:valid});
  check((await request('/api/inquiries',{body:valid})).status===429,'Rate limit enforced');
+ check((await request('/api/inquiries',{body:valid,headers:{'X-Real-IP':'198.51.100.10'}})).status===429,'Untrusted forwarded address cannot bypass rate limit');
 
  check((await request('/api/admin/mail')).status===401,'Anonymous SMTP settings denied');
  const setup=await request('/api/admin/setup',{body:{password:crypto.randomBytes(24).toString('hex')}});
@@ -58,5 +59,17 @@ try{
  check(!message.replyTo,'Phone contact is not an email header');
  await assert.rejects(sendInquiryMail(inquiry,{recipient:'info@aeron.ru',transport:{sendMail:async()=>({accepted:[]})}}),error=>error.status===502);checks++;
  await assert.rejects(sendInquiryMail(inquiry,{recipient:'a@example.com,b@example.com',transport:{sendMail:async()=>{throw Error('must not send');}}}),error=>error.status===503);checks++;
+ const previousProxies=process.env.AERON_TRUSTED_PROXIES;
+ process.env.AERON_TRUSTED_PROXIES='127.0.0.1';
+ const proxyServer=createSiteServer({rebuildSite:async()=>{},deliverInquiry:async()=>{}});
+ if(previousProxies===undefined)delete process.env.AERON_TRUSTED_PROXIES;else process.env.AERON_TRUSTED_PROXIES=previousProxies;
+ await new Promise(resolve=>proxyServer.listen(0,'127.0.0.1',resolve));
+ try{
+  const proxyOrigin='http://127.0.0.1:'+proxyServer.address().port;
+  const proxyRequest=ip=>fetch(proxyOrigin+'/api/inquiries',{method:'POST',headers:{Origin:proxyOrigin,'Content-Type':'application/json','X-Real-IP':ip},body:JSON.stringify(valid)});
+  for(let i=0;i<5;i++)check((await proxyRequest('198.51.100.10')).status===200,'Trusted proxy accepts client requests');
+  check((await proxyRequest('198.51.100.10')).status===429,'Trusted proxy limits individual client');
+  check((await proxyRequest('198.51.100.11')).status===200,'Other client does not share rate limit');
+ }finally{await new Promise(resolve=>proxyServer.close(resolve));}
  console.log(JSON.stringify({mailChecks:checks,externalEmailsSent:0,errors:[]},null,2));
 }finally{await new Promise(resolve=>server.close(resolve));}

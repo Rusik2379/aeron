@@ -1,0 +1,43 @@
+name: aeron
+services:
+  site:
+    build: .
+    image: aeron-site:2026-11-02
+    container_name: aeron-site
+    restart: unless-stopped
+    init: true
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 4186
+      AERON_DATA_DIR: /var/lib/aeron
+      AERON_SITE_URL: https://aeron.ru
+      AERON_SECURE_COOKIES: "1"
+      AERON_ALLOWED_HOSTS: aeron.ru
+      AERON_TRUSTED_PROXIES: 172.18.0.2
+    expose:
+      - "4186"
+    volumes:
+      - ./runtime/data:/var/lib/aeron
+      - ./runtime/uploads:/app/assets/uploads
+    networks:
+      - proxy
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4186/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  proxy:
+    external: true
+    name: proxy-net

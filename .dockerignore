@@ -1,0 +1,16 @@
+.git
+.github
+.qa
+node_modules
+dist
+AERON-github
+*.zip
+*.tar
+*.tar.gz
+preview-*
+README-v2.md
+.env*
+data/*
+!data/content.json
+runtime
+assets/uploads/*
