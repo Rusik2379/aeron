@@ -66,13 +66,14 @@ export function createSiteServer({publicRoot=root,rebuildSite=rebuild,deliverInq
  const sameOrigin=req=>{let origin;try{origin=new URL(req.headers.origin);}catch{throw error(403,'Обновите страницу админки и повторите действие.');}if(origin.host!==req.headers.host)throw error(403,'Запрос с другого сайта отклонён.');};
  async function changeStore(mutator){return serialized(async()=>{const previous=readStore(),next=structuredClone(previous);const result=mutator(next);writeStore(next);try{await rebuildSite();}catch(e){writeStore(previous,{backup:false});try{await rebuildSite();}catch{}console.error(e);throw error(500,'Изменения не опубликованы: сборка не завершилась. Предыдущие данные восстановлены.');}return result;});}
  const server=http.createServer(async(req,res)=>{
-  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','same-origin');let pathname;
+  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','same-origin');let pathname, requestUrl;
   try{
    const hostname=new URL('http://'+req.headers.host).hostname;
    const trusted=new Set(['127.0.0.1','localhost','[::1]',...(process.env.AERON_ALLOWED_HOSTS||'').split(',').map(s=>s.trim()).filter(Boolean)]);
    const siteUrl=readStore().settings?.siteUrl;if(siteUrl)trusted.add(new URL(siteUrl).hostname);
    if(!trusted.has(hostname)){res.writeHead(403).end('Недопустимый адрес сервера.');return;}
-   pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
+   requestUrl=new URL(req.url,'http://localhost');
+   pathname=decodeURIComponent(requestUrl.pathname);
   }catch{res.writeHead(400).end();return;}
   try{
    if(pathname==='/api/inquiries'){
@@ -111,14 +112,22 @@ export function createSiteServer({publicRoot=root,rebuildSite=rebuild,deliverInq
     if(method==='POST'&&pathname==='/api/admin/upload'){const bytes=await readBody(req,12*1024*1024),extension=sniffImage(bytes),name=crypto.randomUUID()+'.'+extension,folder=path.join(publicRoot,'assets','uploads');fs.mkdirSync(folder,{recursive:true});fs.writeFileSync(path.join(folder,name),bytes,{flag:'wx'});send(res,201,{src:'assets/uploads/'+name,preview:'assets/uploads/'+name,width:1600,height:1000,alt:''});return;}
     if(method==='POST'&&pathname==='/api/admin/settings'){const input=await jsonBody(req),settings=validateSettings(input,publicRoot);await changeStore(store=>{store.settings=settings;});send(res,200,{ok:true});return;}
     const match=pathname.match(/^\/api\/admin\/(articles|projects)$/);
-    if(method==='POST'&&match){const kind=match[1],input=await jsonBody(req);let saved;await changeStore(store=>{const index=store[kind].findIndex(x=>x.id===input.id),old=index>=0?store[kind][index]:null;if(old&&input.updatedAt!==old.updatedAt)throw error(409,'Материал уже изменён в другом окне. Откройте его заново.');saved=validateRecord(kind,input,old,publicRoot);if(store[kind].some(x=>x.slug===saved.slug&&x.id!==saved.id))throw error(409,'Такой адрес страницы уже занят.');if(index>=0)store[kind][index]=saved;else store[kind].unshift(saved);});send(res,200,{record:saved,url:'/'+kind+'/'+saved.slug+'/index.html'});return;}
+    if(method==='POST'&&match){const kind=match[1],input=await jsonBody(req);let saved;await changeStore(store=>{const index=store[kind].findIndex(x=>x.id===input.id),old=index>=0?store[kind][index]:null;if(old&&input.updatedAt!==old.updatedAt)throw error(409,'Материал уже изменён в другом окне. Откройте его заново.');saved=validateRecord(kind,input,old,publicRoot);if(store[kind].some(x=>x.slug===saved.slug&&x.id!==saved.id))throw error(409,'Такой адрес страницы уже занят.');if(index>=0)store[kind][index]=saved;else store[kind].unshift(saved);});send(res,200,{record:saved,url:'/'+kind+'/'+saved.slug+'/'});return;}
     throw error(404,'Неизвестное действие.');
    }
    if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,{'Allow':'GET, HEAD'}).end();return;}
    const allowed=/^\/(?:$|index\.html$|404\.html$|(?:styles|business|portfolio|revisions)\.css$|script\.js$|robots\.txt$|sitemap\.xml$|(?:assets|about|articles|business|contacts|development|news|privacy|consent|cookies|projects|services|sitemap|technologies|admin)(?:\/|$))/;
    if(!allowed.test(pathname)||pathname.includes('..')){res.writeHead(404).end('Страница не найдена');return;}
-   let file=path.resolve(publicRoot,'.'+pathname);if(!file.startsWith(publicRoot+path.sep)&&file!==publicRoot)throw error(403,'Доступ запрещён.');if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
+   let file=path.resolve(publicRoot,'.'+pathname);if(!file.startsWith(publicRoot+path.sep)&&file!==publicRoot)throw error(403,'Доступ запрещён.');
+   const directory=fs.existsSync(file)&&fs.statSync(file).isDirectory();
+   if(directory)file=path.join(file,'index.html');
    if(!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404,{'Content-Type':'text/html; charset=utf-8'}).end(fs.existsSync(path.join(publicRoot,'404.html'))?fs.readFileSync(path.join(publicRoot,'404.html')):'Страница не найдена');return;}
+   const explicitIndex=pathname.endsWith('/index.html');
+   if(explicitIndex||(directory&&!pathname.endsWith('/'))){
+    const cleanPath=explicitIndex?pathname.slice(0,-'index.html'.length):pathname+'/';
+    const location=cleanPath.split('/').map(encodeURIComponent).join('/')+requestUrl.search;
+    res.writeHead(301,{Location:location}).end();return;
+   }
    if(!types[path.extname(file)]){res.writeHead(404).end();return;}
    if(pathname.startsWith('/admin')){res.setHeader('Cache-Control','no-store');res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");}else if(path.extname(file)==='.html')res.setHeader('Cache-Control','no-cache');
    res.writeHead(200,{'Content-Type':types[path.extname(file)]});if(req.method==='HEAD')res.end();else fs.createReadStream(file).pipe(res);
